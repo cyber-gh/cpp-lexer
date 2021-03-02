@@ -46,6 +46,11 @@ object WorkflowLexer extends RegexParsers {
     acc + "|" + it
   }
 
+  private val operatorsList = List("=", "+","-","/","*",">","<",">>","<<", "|", "||", "&", "&&", "%", "!")
+  private val operatorsRegex = "^(" + operatorsList.map{it => "\\" + it} .foldRight("auto") { (acc, it) =>
+    acc + "|" + it
+  } + ")"
+
   def newLine: Parser[NEWLINE] = positioned {
     "\\n".r ^^ {str => NEWLINE("")}
   }
@@ -68,7 +73,7 @@ object WorkflowLexer extends RegexParsers {
   }
 
   def operator: Parser[OPERATOR] = positioned {
-    "[+=/*-]".r ^^ {str => OPERATOR(str)}
+    "^(\\+|-|\\*|\\/|=|\\<<|>|<|>=|<=|&|\\||%|!|\\^)".r ^^ {str => OPERATOR(str)}
   }
 
   def keyword: Parser[KEYWORD] = positioned {
@@ -106,6 +111,12 @@ object Main {
 
     val sourceCode = scala.io.Source.fromFile("test.cpp").mkString.concat("\n").dropRight(1)
     println(sourceCode)
-    print(WorkflowLexer(sourceCode))
+    val tokensResult = WorkflowLexer(sourceCode)
+    if (tokensResult.isRight) {
+      print(tokensResult.right.filter{it =>
+        it != NEWLINE
+      })
+    }
+//    print(WorkflowLexer(sourceCode))
   }
 }

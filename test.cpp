@@ -4,6 +4,8 @@ int main() {
     print("un mesaj");
     x = x + y;
 
+    cout < "this is c++ " << "or not";
+
     /*multine
     line
     comment
