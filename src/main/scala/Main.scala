@@ -33,7 +33,8 @@ object WorkflowLexer extends RegexParsers {
   override val whiteSpace: Regex = "[ \t\r\f]+".r
 
   def unkownElement: Parser[UNKOWNELEMENT] = positioned {
-    "^(?!\\s*$).+".r ^^ {str => UNKOWNELEMENT(str)}
+//    "^(?!\\s*$).+".r ^^ {str => UNKOWNELEMENT(str)}
+    "[^\\s]+".r ^^ {str => UNKOWNELEMENT(str)}
   }
 
   private val keywordsList = List("auto", "break", "case", "char", "const", "continue",

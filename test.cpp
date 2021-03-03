@@ -6,9 +6,14 @@ int main() {
 
     cout < "this is c++ " << "or not";
 
+
     /*multine
     line
     comment
     */
+
+    int x;
+
+    ~~~~~~
     return 0;
 }
